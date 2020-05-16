@@ -1,0 +1,21 @@
+[general]
+
+singleton=false
+load_once=true
+symbol_prefix="godot_"
+reloadable=false
+
+[entry]
+
+X11.64="res://src/bin/x11/libgame.64.so"
+Windows.64="res://src/bin/win64/libgame.64.dll"
+OSX.64="res://src/bin/osx/libgame.64.dylib"
+X11.32="res://src/bin/x11/libgame.64.so"
+Windows.32="res://src/bin/win64/libgame.64.dll"
+OSX.32="res://src/bin/osx/libgame.64.dylib"
+
+[dependencies]
+
+X11.64=[  ]
+Windows.64=[  ]
+OSX.64=[  ]

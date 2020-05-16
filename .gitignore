@@ -1,4 +1,5 @@
 .import
-src/bin
+src/bin/*
+!src/bin/game.gdnlib
 *.os
 .sconsign.dblite

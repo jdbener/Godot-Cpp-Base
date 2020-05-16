@@ -2,6 +2,11 @@
     This file implements an output stream linked to Godot's console.
     Author: Joshua "Jdbener" Dahl
 
+    Usage:
+    godot::print << "A simple message" << godot::endl; // All of the manipulators in iomanip should work propperly.
+    godot::print.warn("Warning message with all of the file/line number information automatically included");
+    godot::print.error("Error message with all of the file/line number information automatcially included");
+
     NOTE: Messages are synced to Godot when a '\n' or an std::endl is encounted.
     The last character sent must be one of these in order for the things before it
     to print.
@@ -83,16 +88,16 @@ namespace godot {
 	public:
 			gostream() : std::wostream(godot_streambuf::get_singleton()) {}
 
-			void warn(const String &description, const String &function, const String &file, int line){
+			void warn(const String description, const String function, const String file, int line){
 				Godot::print_warning(description, function, file, line);
 			}
-			void error(const String &description, const String &function, const String &file, int line){
+			void error(const String description, const String function, const String file, int line){
 				Godot::print_error(description, function, file, line);
 			}
 	};
 
     // Implementaion of the streambuffer
-    static gostream gout;
+    static gostream print;
 };
 
 // Macros add in warning and error infromation automatically
