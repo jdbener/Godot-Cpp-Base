@@ -77,21 +77,23 @@ elif env['platform'] in ('x11', 'linux'):
 		env.Append(LINKFLAGS=['-m32'])
 
 elif env['platform'] == "windows":
-	env['target_path'] += 'win64/'
+	env['target_path'] += 'win/'
 	cpp_library += '.windows'
 	# This makes sure to keep the session environment variables on windows,
 	# that way you can run scons in a vs 2017 prompt and it will find all the required tools
 	env.Append(ENV=os.environ)
+    # Make sure the object files aren't flagged by godot for inclusion
+	env['OBJSUFFIX'] = env['OBJSUFFIX'] + "." + env['bits']
 
 	env.Append(CPPDEFINES=['WIN32', '_WIN32', '_WINDOWS', '_CRT_SECURE_NO_WARNINGS'])
-	env.Append(CCFLAGS=['-W3', '-GR'])
+	env.Append(CCFLAGS=['/W3', '/GR', '/std:c++17'])
 	if env['target'] in ('debug', 'd'):
 		env.Append(CPPDEFINES=['_DEBUG'])
-		env.Append(CCFLAGS=['-EHsc', '-MDd', '-ZI'])
-		env.Append(LINKFLAGS=['-DEBUG'])
+		env.Append(CCFLAGS=['/EHsc', '/MDd', '/ZI'])
+		env.Append(LINKFLAGS=['/DEBUG'])
 	else:
 		env.Append(CPPDEFINES=['NDEBUG'])
-		env.Append(CCFLAGS=['-O2', '-EHsc', '-MD'])
+		env.Append(CCFLAGS=['/O2', '/EHsc', '/MD'])
 	if env['bits'] == '64':
 		env.Append(TARGET_ARCH='x86_64')
 	else:
