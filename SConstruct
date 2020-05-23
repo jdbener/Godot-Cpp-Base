@@ -52,9 +52,9 @@ if env['platform'] == "osx":
 	env['target_path'] += 'osx/'
 	cpp_library += '.osx'
 	if env['target'] in ('debug', 'd'):
-		env.Append(CCFLAGS=['-g', '-O2', '-arch', 'x86_64'])
+		env.Append(CCFLAGS=['-g', '-O2'])
 	else:
-		env.Append(CCFLAGS=['-g', '-O3', '-arch', 'x86_64'])
+		env.Append(CCFLAGS=['-O3'])
 	if env['bits'] == '64':
 		env.Append(LINKFLAGS=['-arch', 'x86_64'])
 	else:
@@ -65,9 +65,10 @@ elif env['platform'] in ('x11', 'linux'):
 	cpp_library += '.linux'
 	if env['target'] in ('debug', 'd'):
 		env.Append(CCFLAGS=['-fPIC', '-g3', '-Og'])
+		env.Append(LINKFLAGS=['-g3'])
 		env.Append(CXXFLAGS=['-std=c++17'])
 	else:
-		env.Append(CCFLAGS=['-fPIC', '-g', '-O3'])
+		env.Append(CCFLAGS=['-fPIC', '-O3'])
 		env.Append(CXXFLAGS=['-std=c++17'])
 	if env['bits'] == '64':
 		env.Append(CCFLAGS=['-m64'])
@@ -107,7 +108,7 @@ else:
 cpp_library += '.' + env['bits']
 
 # make sure our binding library is properly includes
-env.Append(CPPPATH=['.', godot_headers_path, cpp_bindings_path + 'include/', cpp_bindings_path + 'include/core/', cpp_bindings_path + 'include/gen/'])
+env.Append(CPPPATH=['.', godot_headers_path, cpp_bindings_path + 'include/', cpp_bindings_path + 'include/core/', cpp_bindings_path + 'include/gen/', cpp_bindings_path + 'include/gen/godot'])
 env.Append(LIBPATH=[cpp_bindings_path + 'bin/'])
 env.Append(LIBS=[cpp_library])
 
@@ -126,6 +127,7 @@ SConscript(findSubfiles(), 'env sources')
 # Write the include paths to the .clang_complete file
 def updateClangComplete(clang_paths):
 	f = open(".clang_complete", "w")
+	f.write("-std=c++17\n");
 	clang_paths.remove(".")
 	clang_paths = [path.replace(" ", "\ ") for path in clang_paths]
 	for path in clang_paths:

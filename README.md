@@ -1,5 +1,5 @@
 # Godot-Cpp-Base
-A base repository which contains the base c++ bindings setup to use GDNative.
+A base repository which contains the base c++ bindings setup to use GDNative. It is designed so that a new C++ Godot project can be quickly set up with minimal hassle.
 
 To use it in the simplest way possible to use this repository is through the following git commands executed in the same folder as a newly created Godot project.
 ```
@@ -20,6 +20,13 @@ scons platform=<your platform here> generate_bindings=yes bits=64 -j4
 The -j4 can be replaced with -j[the number of cores in your computer] to speed up the build time.
 
 The build script (both for this base and the Godot library) is designed around the [Scons](https://scons.org/) build environment, so make sure you have [Scons](https://scons.org/). Then run `scons platform=[windows, linux, or osx]` to build your c++ code. The build script will automatically find `SCsub` files in your directory which it uses to determine which c++ files to build (an example is in the src directory, setup to build the required Godot linking file which tells Godot about your classes). Additionally a small header library is included which implements a cout like wostream implemented using Godot's print function, try including `Gstream.hpp` instead of `Godot.hpp` and then using `godot::print << "Hello World" << godot::endl;`.
+
+Once the bindings have been built, you can optionally run:
+```
+cd ..
+python src/godot/godot-cppImprover.py
+```
+To generate an extra set of header files with no file extension (similar to the std headers) which include all of the dependencies the Godot headers automatically (No more having to include Tree and TreeItem). There is a file GodotCommon which includes much of the commonly used Godot functionality (SceneTree, Input, Resource Loading/Saving, Base nodes) and another called GodotAll which includes every generated header. **NOTE: this feature will lead to easier development at the cost of increased compile times**
 
 Finally, to build your scripts run:
 ```
