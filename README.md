@@ -8,7 +8,7 @@ git remote add origin https://github.com/jdbener/Godot-Cpp-Base.git -f
 git checkout master
 git submodule add https://github.com/GodotNativeTools/godot-cpp
 cd godot-cpp
-git submodule update --init
+git submodule update --init --recursive
 cd ..
 git remote rm origin
 ```
