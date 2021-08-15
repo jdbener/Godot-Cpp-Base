@@ -18,6 +18,7 @@ cd godot-cpp
 scons platform=<your platform here> generate_bindings=yes bits=64 -j4
 ```
 The -j4 can be replaced with -j[the number of cores in your computer] to speed up the build time.
+The bits=64 can be replaced with bits=32 if you are running on or targeting a 32 bit system.
 
 Once the bindings have been built, you can optionally run:
 ```
