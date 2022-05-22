@@ -1,0 +1,9 @@
+[configuration]
+
+entry_symbol = "game_init"
+
+[libraries]
+
+linux.64.debug = "bin/linuxbsd/libgame.debug.64.so"
+linux.64.release = "bin/linuxbsd/libgame.release.64.so"
+

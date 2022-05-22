@@ -21,13 +21,13 @@
 
 #ifndef __GSTREAM_H__
 #define __GSTREAM_H__
-#include "Godot.hpp"
+#include <godot_common>
 #include <sstream>
 
 #ifndef GODOT_NO_STRING_STREAM_INSERTION_OPERATOR
 // Define how Godot Strings get processed by wostreams
 inline std::wostream& operator<<(std::wostream& stream, const godot::String& string){
-	stream << string.unicode_str();
+	stream << string.utf8().get_data();
 	return stream;
 }
 // By defining an rvalue function as well, any datatype with a String() opperator
@@ -68,7 +68,7 @@ namespace godot {
 				godot::String toPrint = buffer.c_str();
 				if(toPrint.length() == 0)
 					toPrint = wchar_t(' '); // Print a space to ensure extra newlines happen
-				Godot::print(toPrint);
+				godot::UtilityFunctions::print(toPrint);
 				buffer.clear();
 			// Otherwise add the character to the buffer
 			} else
@@ -92,25 +92,16 @@ namespace godot {
 	public:
 			gostream() : std::wostream(godot_streambuf::get_singleton()) {}
 
-			void warn(const String description, const String function, const String file, int line){
-				Godot::print_warning(description, function, file, line);
+			void warn(const String description, std::source_location loc = std::source_location::current()){
+				godot::UtilityFunctions::push_warning(description, loc.function_name, loc.file_name, loc.line);
 			}
-			void error(const String description, const String function, const String file, int line){
-				Godot::print_error(description, function, file, line);
+			void error(const String description, std::source_location loc = std::source_location::current()){
+				godot::UtilityFunctions::push_error(description, loc.function_name, loc.file_name, loc.line);
 			}
 	};
 
 	// Implementation of the streambuffer
 	static gostream print;
 };
-
-// Macros add in warning and error information automatically
-#ifdef __FUNCTION__
-	#define warn(description) warn(description, __FUNCTION__, __FILE__, __LINE__)
-	#define error(description) error(description, __FUNCTION__, __FILE__, __LINE__)
-#else
-	#define warn(description) warn(description, __func__, __FILE__, __LINE__)
-	#define error(description) error(description, __func__, __FILE__, __LINE__)
-#endif
 
 #endif // __GSTREAM_H__

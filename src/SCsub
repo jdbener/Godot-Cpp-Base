@@ -1,6 +1,6 @@
 #!python
 Import('env sources')
 
-env.Append(CPPPATH=["src/", "src/godot"])
+env.Append(CPPPATH=["src/", "src/godot-link"])
 sources.extend(Glob("*.cpp"))
-sources.extend(Glob("godot/*.cpp"))
+sources.extend(Glob("godot-link/*.cpp"))

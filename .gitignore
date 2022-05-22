@@ -1,5 +1,47 @@
-.import
+# Godot 4+ specific ignores
+.godot/
 src/bin/*
-!src/bin/game.gdnlib
-*.os
+!src/bin/game.gdextension
+
+# for projects that use SCons for building: http://http://www.scons.org/
 .sconsign.dblite
+
+# When configure fails, SCons outputs these
+config.log
+.sconf_temp
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+*.os
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+build/
+
+!/*/models/*.obj
+
+# Visual studio settings
+.vscode/
